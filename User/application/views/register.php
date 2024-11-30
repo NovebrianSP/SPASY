@@ -36,6 +36,27 @@
         .rounded-5 {
             border-radius: 30px;
         }
+
+        .clear-text {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #000000;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 12px;
+            display: none;
+        }
+
+        .clear-text:hover {
+            text-decoration: none;
+        }
+
+        .text-center-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -54,16 +75,7 @@
                         <h2>Sign Up</h2>
                     </div>
 
-                    <form action="" method="post">
-                        <div class="input-group mb-3">
-                            <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
-                                style="background: #416D19">
-                                <i class="bi bi-person text-white fs-3"></i>
-                            </div>
-                            <input type="text" name="username" class="form-control bg-light fs-6"
-                                placeholder="Username">
-                        </div>
-
+                    <form id="registerForm" method="post" action="<?php echo site_url('Register') ?>">
 
                         <div class="input-group mb-3">
                             <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
@@ -71,8 +83,29 @@
                                 <i class="bi bi-person-vcard-fill text-white fs-3"></i>
                             </div>
                             <input type="text" name="nik" class="form-control bg-light fs-6"
-                                placeholder="NIK">
+                                placeholder="NIK" value="<?php echo set_value('nik') ?>">
                         </div>
+                        <span class="text-danger"><?php echo form_error('nik') ?></span>
+
+                        <div class="input-group mb-3">
+                            <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
+                                style="background: #416D19">
+                                <i class="bi bi-person text-white fs-3"></i>
+                            </div>
+                            <input type="text" name="nama" class="form-control bg-light fs-6"
+                                placeholder="Nama Anda" value="<?php echo set_value('nama') ?>">
+                        </div>
+                        <span class="text-danger"><?php echo form_error('nama') ?></span>
+
+                        <div class="input-group mb-3">
+                            <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
+                                style="background: #416D19">
+                                <i class="bi bi-envelope-at-fill text-white fs-3"></i>
+                            </div>
+                            <input type="email" name="email" class="form-control bg-light fs-6"
+                                placeholder="Alamat email" value="<?php echo set_value('email') ?>">
+                        </div>
+                        <span class="text-danger"><?php echo form_error('email') ?></span>
 
                         <div class="input-group mb-3">
                             <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
@@ -80,31 +113,24 @@
                                 <i class="bi bi-key-fill text-white fs-3"></i>
                             </div>
                             <input type="password" name="password" class="form-control bg-light fs-6"
-                                placeholder="Masukkan Password">
+                                placeholder="Masukkan Password" value="<?php echo set_value('password') ?>">
                             <button class="btn bg-light" type="button" id="btn-pw">
                                 <i id="eye" class="bi bi-eye-fill fs-5 text-dark"></i>
                             </button>
                         </div>
+                        <span class="text-danger text-sm"><?php echo form_error('password') ?></span>
 
-                        <div class="input-group mb-1">
-                            <div class="col-2 rounded-2 d-flex justify-content-center align-items-center"
-                                style="background: #416D19">
-                                <i class="bi bi-key-fill text-white fs-3"></i>
-                            </div>
-                            <input type="password" name="konfirm_password" class="form-control bg-light fs-6"
-                                placeholder="Konfirmasi Password">
-                            <button class="btn bg-light" type="button" id="btn-pw2">
-                                <i id="eye2" class="bi bi-eye-fill fs-5 text-dark"></i>
-                            </button>
+                        <div class="text-center-flex">
+                            <button type="button" class="clear-text" id="clearForm">Clear Input</button>
                         </div>
 
                         <div class="input-group mb-3 p-3">
                             <button class="btn btn-lg btn-primary w-100 fs-6">Sign Up</button>
                         </div>
-                        <div class="row text-center">
-                            <small>Sudah punya akun? <a href="<?php echo site_url('Login') ?>">Sign in disini</a></small>
-                        </div>
                     </form>
+                    <div class="text-center">
+                        <small>Sudah punya akun? <a href="<?php echo site_url('Login') ?>">Sign in disini</a></small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,13 +138,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+
     <script>
         const passwordInput = document.querySelector('input[name="password"]');
-        const passwordInput2 = document.querySelector('input[name="konfirm_password"]');
         const eyeIcon = document.getElementById('eye');
-        const eyeIcon2 = document.getElementById('eye2');
         const showPasswordButton1 = document.getElementById('btn-pw');
-        const showPasswordButton2 = document.getElementById('btn-pw2');
 
         showPasswordButton1.addEventListener('click', function() {
             if (passwordInput.type === 'password') {
@@ -132,18 +156,45 @@
             }
         });
 
-        showPasswordButton2.addEventListener('click', function() {
-            if (passwordInput2.type === 'password') {
-                passwordInput2.type = 'text';
-                eyeIcon2.classList.remove("bi-eye-fill");
-                eyeIcon2.classList.add("bi-eye-slash-fill");
-            } else {
-                passwordInput2.type = 'password';
-                eyeIcon2.classList.remove("bi-eye-slash-fill");
-                eyeIcon2.classList.add("bi-eye-fill");
-            }
+        const form = document.getElementById('registerForm');
+        const clearButton = document.getElementById('clearForm');
+        const inputs = form.querySelectorAll('input');
+
+        function checkInputs() {
+            let hasValue = false;
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    hasValue = true;
+                }
+            });
+            clearButton.style.display = hasValue ? 'inline' : 'none'; // Tampilkan atau sembunyikan tombol
+        }
+
+        // Tambahkan event listener pada setiap input
+        inputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+
+        // Tambahkan event listener untuk tombol Clear
+        clearButton.addEventListener('click', function() {
+            inputs.forEach(input => input.value = ''); // Kosongkan semua input
+            clearButton.style.display = 'none'; // Sembunyikan tombol setelah reset
         });
     </script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <?php if ($this->session->flashdata('pesan_sukses')) : ?>
+        <script>
+            swal("Sukses!", "<?php echo $this->session->flashdata('pesan_sukses'); ?>", "success");
+        </script>
+    <?php endif ?>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <?php if ($this->session->flashdata('pesan_gagal')) : ?>
+        <script>
+            swal("Gagal!", "<?php echo $this->session->flashdata('pesan_gagal'); ?>", "error");
+        </script>
+    <?php endif ?>
 </body>
 
 </html>

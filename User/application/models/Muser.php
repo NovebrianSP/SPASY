@@ -1,6 +1,12 @@
 <?php
 class Muser extends CI_Model
 {
+  function show()
+  {
+    $q = $this->db->get('pengguna');
+    return $q->result_array();
+  }
+
   function login($login)
   {
     $email = $login['email'];
@@ -24,5 +30,10 @@ class Muser extends CI_Model
     } else {
       return "kosong";
     }
+  }
+
+  function register($v)
+  {
+    $this->db->insert('pengguna', $v);
   }
 }

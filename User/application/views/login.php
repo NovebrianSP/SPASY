@@ -36,6 +36,27 @@
         .rounded-5 {
             border-radius: 30px;
         }
+
+        .clear-text {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #000000;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 12px;
+            display: none;
+        }
+
+        .clear-text:hover {
+            text-decoration: none;
+        }
+
+        .text-center-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -54,7 +75,7 @@
                         <h2>Welcome User!</h2>
                     </div>
 
-                    <form method="post">
+                    <form id="loginForm" method="post">
                         <div class="input-group mb-3">
                             <div class="col-2 d-flex justify-content-center align-items-center"
                                 style="background: #416D19">
@@ -63,9 +84,7 @@
                             <input type="text" name="email" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Email Anda" value="<?php echo set_value('email') ?>">
                         </div>
-                        <div class="text-danger">
-                            <?php echo form_error('email') ?>
-                        </div>
+                        <span class="text-danger"><?php echo form_error('email') ?></span>
 
                         <div class="input-group mb-1">
                             <div class="col-2 d-flex justify-content-center align-items-center"
@@ -78,8 +97,10 @@
                                 <i id="eye" class="bi bi-eye-fill fs-5 text-dark"></i>
                             </button>
                         </div>
-                        <div class="text-danger">
-                            <?php echo form_error('password') ?>
+                        <span class="text-danger"><?php echo form_error('password') ?></span>
+
+                        <div class="text-center-flex">
+                            <button type="button" class="clear-text" id="clearForm">Clear Input</button>
                         </div>
 
                         <div class="input-group mb-3 p-3">
@@ -111,6 +132,31 @@
                 eyeIcon.classList.remove("bi-eye-slash-fill");
                 eyeIcon.classList.add("bi-eye-fill");
             }
+        });
+
+        const form = document.getElementById('loginForm');
+        const clearButton = document.getElementById('clearForm');
+        const inputs = form.querySelectorAll('input');
+
+        function checkInputs() {
+            let hasValue = false;
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    hasValue = true;
+                }
+            });
+            clearButton.style.display = hasValue ? 'inline' : 'none'; // Tampilkan atau sembunyikan tombol
+        }
+
+        // Tambahkan event listener pada setiap input
+        inputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+
+        // Tambahkan event listener untuk tombol Clear
+        clearButton.addEventListener('click', function() {
+            inputs.forEach(input => input.value = ''); // Kosongkan semua input
+            clearButton.style.display = 'none'; // Sembunyikan tombol setelah reset
         });
     </script>
 

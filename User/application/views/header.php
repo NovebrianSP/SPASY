@@ -14,7 +14,6 @@
   <nav
     class="navbar navbar-expand-sm" style="background-color: #9BCF53;">
     <div class="container">
-      <a class="navbar-brand" href="#">Navbar</a>
       <button
         class="navbar-toggler d-lg-none"
         type="button"
@@ -32,7 +31,10 @@
               <span class="visually-hidden">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Target Saya</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Sampah Saya</a>
           </li>
         </ul>
         <a href="<?php echo site_url('Logout') ?>" class="btn btn-outline-dark my-2 my-sm-0">
