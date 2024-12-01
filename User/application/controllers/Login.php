@@ -13,14 +13,18 @@ class Login extends CI_Controller
     $this->form_validation->set_message('required', '%s wajib diisi');
     
     if ($this->form_validation->run() == TRUE) {
-      $this->load->model('Muser');
-      $output = $this->Muser->login($login);
+      $this->load->model('User_model');
+      $output = $this->User_model->login($login);
 
       if($output == "ada"){
         $this->session->set_flashdata('pesan_sukses', 'Berhasil Login');
         redirect('Home', 'refresh');
-      } else {
-        $this->session->set_flashdata('pesan_gagal', 'Gagal Login');
+      } else if($output == "invalid_password") {
+        $this->session->set_flashdata('pesan_gagal', 'Password Yang Anda Masukkan Salah');
+        redirect('/', 'refresh');
+      }
+      else {
+        $this->session->set_flashdata('pesan_gagal', 'User Tidak Ditemukan');
         redirect('/', 'refresh');
       }
     }

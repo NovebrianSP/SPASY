@@ -5,7 +5,7 @@ class Register extends CI_Controller
 {
   public function index()
   {
-    $this->load->model('Muser');
+    $this->load->model('User_model');
 
     # Validasi form
     $this->form_validation->set_rules('nik', 'NIK', 'required|is_unique[pengguna.nik]');
@@ -29,8 +29,9 @@ class Register extends CI_Controller
         'no_telp' => 'empty',
       ];
 
-      $this->Muser->register($v);
-      $this->session->set_flashdata('pesan_sukses', 'Berhasil mendaftar!');
+      if ($this->User_model->register($v)) {
+        $this->session->set_flashdata('pesan_sukses', 'Berhasil mendaftar!');
+      }
       redirect('Login', 'refresh');
     }
 

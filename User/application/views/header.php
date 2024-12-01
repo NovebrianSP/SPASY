@@ -9,39 +9,74 @@
   <title>SPASY</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-  </style>
 
-  <nav
-    class="navbar navbar-expand-sm" style="background-color: #9BCF53;">
+    nav {
+      background-color: #9BCF53;
+    }
+
+    .nav-link.active {
+      color: white !important;
+      background-color: #416D19 !important;
+      padding: 8px 15px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
-      <button
-        class="navbar-toggler d-lg-none"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapsibleNavId"
-        aria-controls="collapsibleNavId"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
+
+      <!-- Toggle button for mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <!-- Menu Home -->
           <li class="nav-item">
-            <a class="nav-link active" href="#" aria-current="page">Home
-              <span class="visually-hidden">(current)</span></a>
+            <a class="nav-link <?= (current_url() == site_url('Home') || current_url() == site_url()) ? 'active' : ''; ?>"
+              href="<?= site_url('Home'); ?>">Home</a>
           </li>
+
+          <!-- Menu Target Saya -->
           <li class="nav-item">
-            <a class="nav-link" href="#">Target Saya</a>
+            <a class="nav-link <?= (current_url() == site_url('Target')) ? 'active' : ''; ?>"
+              href="<?= site_url('Target'); ?>">Target Saya</a>
           </li>
+
+          <!-- Menu Sampah Saya -->
           <li class="nav-item">
-            <a class="nav-link" href="#">Sampah Saya</a>
+            <a class="nav-link <?= (current_url() == site_url('Garbage')) ? 'active' : ''; ?>"
+              href="<?= site_url('Garbage'); ?>">Sampah Saya</a>
           </li>
         </ul>
-        <a href="<?php echo site_url('Logout') ?>" class="btn btn-outline-dark my-2 my-sm-0">
-          Logout
-        </a>
+
+        <!-- User Dropdown -->
+        <div class="dropdown">
+          <button class="btn dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false" style="background-color: #9BCF53; border: none;">
+            <img src="<?php echo $this->config->item('assets_url') ?>person-svgrepo-com.svg" alt="User Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+            <span class="ms-2 text-white"><?php echo $this->session->userdata('nama'); ?></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="<?= site_url('account'); ?>">Akun</a></li>
+            <li><a class="dropdown-item" href="<?= site_url('logout'); ?>">Logout</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
 
-</head>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pcAh3vWZ9bK9DrNy7k8nV4Rk9Ql8UtNLT7lzptGGIjVAN+fABFF3r1a3RT78NBqR" crossorigin="anonymous"></script>
+</body>
+
+</html>
