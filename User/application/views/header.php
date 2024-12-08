@@ -14,6 +14,29 @@
       background-color: #9BCF53;
     }
 
+    body {
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-top: 50px;
+    }
+
+    a {
+      color: black;
+    }
+
+    a:hover {
+      color: #F5F5F5;
+    }
+
+    
+    footer {
+      background-color: #9BCF53;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
+
     .nav-link.active {
       color: white !important;
       background-color: #416D19 !important;
@@ -25,11 +48,15 @@
       text-align: center;
       height: 100%;
     }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
 
       <!-- Toggle button for mobile -->
@@ -62,9 +89,9 @@
         <!-- User Dropdown -->
         <div class="dropdown">
           <button class="btn dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false" style="background-color: #9BCF53; border: none;">
+            aria-expanded="false" border: none;">
+            <span class="ms-2 text-dark"><?php echo $this->session->userdata('nama'); ?></span>
             <img src="<?php echo $this->config->item('assets_url') ?>person-svgrepo-com.svg" alt="User Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-            <span class="ms-2 text-white"><?php echo $this->session->userdata('nama'); ?></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="<?= site_url('account'); ?>">Akun</a></li>

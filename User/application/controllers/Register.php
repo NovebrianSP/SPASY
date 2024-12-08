@@ -37,5 +37,6 @@ class Register extends CI_Controller
 
     $data['errors'] = validation_errors();
     $this->load->view('register', $data);
+    $this->load->view('footer');
   }
 }

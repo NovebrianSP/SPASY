@@ -3,16 +3,12 @@
     <h3 class="text-center mb-4">Tambah Catatan Pemasukan Sampah Anda</h3>
     <div class="card mx-auto" style="max-width: 50rem;">
       <div class="card-body">
-        <form method="post">
+        <form action="<?= site_url('Garbage/store_sampah') ?>" method="post">
           <div class="mb-3">
-            <label for="jenisSampah" class="form-label">Jenis Sampah</label>
-            <select name="jenis_sampah" id="jenisSampah" class="form-select" required>
-              <option value="" selected disabled>Pilih Jenis Sampah</option>
-              <?php foreach ($kategori as $item): ?>
-                <option value="<?= $item['id_kategori'] ?>"><?php echo $item['nama_kategori'] ?></option>
-              <?php endforeach ?>
-            </select>
+            <input hidden class="form-control" type="text" name="id_kategori" id="id_kategori" value="<?= $target->id_kategori; ?>">
           </div>
+
+          <input type="hidden" name="id_target" value="<?= $id_target; ?>">
 
           <div class="mb-3">
             <label for="jumlahBerat" class="form-label">Jumlah Berat</label>
