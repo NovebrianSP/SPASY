@@ -52,3 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['subs/pay_subscription/(:any)'] = 'subs/pay_subscription/$1';
+$route['subs/finish_payment'] = 'subs/finish_payment';

@@ -36,8 +36,8 @@ class Home extends CI_Controller
 
       $data['totalSampah'] = $this->Garbage_model->getTotalGarbage();
 
-    $this->load->view('header');
-    $this->load->view('dashboard', $data);
-    $this->load->view('footer');
+    $this->load->view('addons/header');
+    $this->load->view('dashboard/dashboard', $data);
+    $this->load->view('addons/footer');
   }
 }

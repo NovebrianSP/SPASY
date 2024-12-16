@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2024 at 03:14 PM
+-- Generation Time: Dec 16, 2024 at 12:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `jenis` (
   `id_jenis` int(11) NOT NULL,
-  `label_jenis` varchar(10) NOT NULL
+  `label_jenis` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -48,7 +48,7 @@ INSERT INTO `jenis` (`id_jenis`, `label_jenis`) VALUES
 
 CREATE TABLE `kategori` (
   `id_kategori` int(11) NOT NULL,
-  `id_jenis` int(11) NOT NULL,
+  `id_jenis` int(11) DEFAULT NULL,
   `nama_kategori` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -84,9 +84,10 @@ CREATE TABLE `log` (
 --
 
 INSERT INTO `log` (`id_log`, `nik`, `aktivitas`, `timestamps`, `id_target`) VALUES
-(19, '2', 'Menambahkan 10.5 kg sampah ke kategori Besi', '2024-12-08 15:13:04', 11),
-(20, '2', 'Menambahkan 13 kg sampah ke kategori Minyak', '2024-12-08 15:13:27', NULL),
-(21, '2', 'Menambahkan 20 kg sampah ke kategori Kayu', '2024-12-08 15:14:01', NULL);
+(1, '1', 'Menambahkan 2 kg sampah ke kategori Minyak', '2024-12-14 15:46:00', NULL),
+(2, '1', 'Menambahkan 1.5 kg sampah ke kategori Besi', '2024-12-15 06:07:55', 1),
+(3, '1', 'Menambahkan 2 kg sampah ke kategori Besi', '2024-12-15 06:08:12', NULL),
+(4, '3', 'Menambahkan 1 kg sampah ke kategori Plastik', '2024-12-16 06:37:41', 2);
 
 -- --------------------------------------------------------
 
@@ -110,23 +111,27 @@ CREATE TABLE `pengelolaan_sampah` (
 
 CREATE TABLE `pengguna` (
   `nik` varchar(30) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `status` varchar(45) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `status` enum('Active','Inactive') DEFAULT 'Inactive',
   `alamat` varchar(100) DEFAULT NULL,
-  `no_telp` varchar(15) DEFAULT NULL
+  `no_telp` varchar(15) DEFAULT NULL,
+  `start_sub_date` datetime DEFAULT NULL,
+  `end_sub_date` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`nik`, `email`, `password`, `nama`, `status`, `alamat`, `no_telp`) VALUES
-('1', 'wawan@gmail.com', '1234', 'wawan', 'free user', 'empty', 'empty'),
-('2', 'gin@gmail.com', '$2y$10$ay/fMDOfhKvrVhuPLL1Y5eFsJx7iKO0eV1xZMbto5SciWXvepTYqi', 'Gino', 'free user', 'empty', 'empty'),
-('3', 'wahyu@gmail.com', '$2y$10$pPZR/QN4mI113Aihhs0Bquoj2Ss0twPZ4ksauCwjxFMtl8tE3FQoW', 'wahyu', 'free user', 'empty', 'empty'),
-('4', 'gungun@gmail.com', '$2y$10$mPJ..G0MlCby62pNvddSgu8BIMbyo.cGGtEud3pDq84v20.k891MG', 'Gunawan', 'free user', 'empty', 'empty');
+INSERT INTO `pengguna` (`nik`, `email`, `password`, `nama`, `status`, `alamat`, `no_telp`, `start_sub_date`, `end_sub_date`, `created_at`, `updated_at`) VALUES
+('1', 'wage@gmail.com', '$2y$10$8d2RirEiibz0rBext73xP.lsiZOfq7iWn4V06S/27.8xd/kudaYMO', 'Wagiman', 'Active', 'empty', 'empty', '2024-12-15 12:07:10', '2025-12-15 12:07:10', '2024-12-14 21:40:10', '2024-12-15 12:07:10'),
+('2', 'bayu@gmail.com', '$2y$10$1a0vDRFrXbhSn6aTvqYyvOHoVLyoza6mGqNDe2hnQqSG4UelrAFOm', 'Bayu', 'Active', 'empty', 'empty', '2024-12-16 06:15:30', '2025-01-16 06:15:30', '2024-12-15 12:10:13', '2024-12-16 12:15:30'),
+('3', 'natan@gmail.com', '$2y$10$c0K.TU0YEQoNZS20asoMzuHF4.ozfsohMkR3aF/FBttZiIb1F1Ydy', 'Natan', 'Active', 'empty', 'empty', '2024-12-16 06:35:22', '2025-01-16 06:35:22', '2024-12-16 12:30:20', '2024-12-16 12:35:22'),
+('4', 'janto@gmail.com', '$2y$10$n/eN2GijJ6Ilv0p1wbCF6eU5nDGjw6.F89xUYKQZnRkYMkNNWUqZ6', 'Janto', 'Active', 'empty', 'empty', '2024-12-16 10:13:41', '2025-01-16 10:13:41', '2024-12-16 15:45:23', '2024-12-16 16:13:41');
 
 -- --------------------------------------------------------
 
@@ -136,7 +141,7 @@ INSERT INTO `pengguna` (`nik`, `email`, `password`, `nama`, `status`, `alamat`, 
 
 CREATE TABLE `sampah` (
   `id_sampah` int(11) NOT NULL,
-  `nik` varchar(30) NOT NULL,
+  `nik` varchar(30) DEFAULT NULL,
   `id_kategori` int(11) DEFAULT NULL,
   `total` float DEFAULT NULL,
   `tanggal_masuk` datetime DEFAULT NULL,
@@ -148,9 +153,10 @@ CREATE TABLE `sampah` (
 --
 
 INSERT INTO `sampah` (`id_sampah`, `nik`, `id_kategori`, `total`, `tanggal_masuk`, `id_target`) VALUES
-(43, '2', 6, 10.5, '2024-12-08 21:12:00', 11),
-(44, '2', 1, 13, '2024-12-08 21:13:00', NULL),
-(45, '2', 3, 20, '2024-12-08 21:13:00', NULL);
+(1, '1', 1, 2, '2024-12-14 21:45:00', NULL),
+(2, '1', 6, 1.5, '2024-12-15 12:07:00', 1),
+(3, '1', 6, 2, '2024-12-15 12:08:00', NULL),
+(4, '3', 5, 1, '2024-12-16 12:37:00', 2);
 
 --
 -- Triggers `sampah`
@@ -187,7 +193,7 @@ CREATE TABLE `target_sampah` (
   `nik` varchar(30) DEFAULT NULL,
   `id_kategori` int(11) DEFAULT NULL,
   `target_total` float DEFAULT NULL,
-  `target_sementara` float NOT NULL,
+  `target_sementara` float DEFAULT NULL,
   `tanggal_target` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -196,7 +202,8 @@ CREATE TABLE `target_sampah` (
 --
 
 INSERT INTO `target_sampah` (`id_target`, `nik`, `id_kategori`, `target_total`, `target_sementara`, `tanggal_target`) VALUES
-(11, '2', 6, 100, 10.5, '2024-12-08 21:12:00');
+(1, '1', 6, 20, 1.5, '2024-12-15 12:07:00'),
+(2, '3', 5, 2, 1, '2024-12-21 12:35:00');
 
 -- --------------------------------------------------------
 
@@ -213,6 +220,34 @@ CREATE TABLE `target_sampah_view` (
 ,`total_sampah_terkumpul` double
 ,`selisih_target` double
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `id_transaksi` varchar(100) NOT NULL,
+  `nik` varchar(30) DEFAULT NULL,
+  `status_transaksi` enum('Ditagih','Lunas','Batal') DEFAULT NULL,
+  `biaya_transaksi` int(11) DEFAULT NULL,
+  `expiry_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `nik`, `status_transaksi`, `biaya_transaksi`, `expiry_time`) VALUES
+('92', '2', 'Lunas', 378000, '2024-12-16 12:11:28'),
+('ORDER-2-20241216060829', '2', 'Batal', 35000, '2024-12-17 06:08:35'),
+('ORDER-2-20241216060854', '2', 'Lunas', 35000, '2024-12-17 06:09:07'),
+('ORDER-2-20241216061401', '2', 'Lunas', 35000, '2024-12-17 06:14:21'),
+('ORDER-2-20241216061519', '2', 'Lunas', 35000, '2024-12-17 06:15:30'),
+('ORDER-3-20241216063159', '3', 'Lunas', 35000, '2024-12-17 06:35:22'),
+('ORDER-4-20241216095442', '4', 'Batal', 199000, '2024-12-17 09:54:46'),
+('ORDER-4-20241216101307', '4', 'Lunas', 35000, '2024-12-17 10:13:41');
 
 -- --------------------------------------------------------
 
@@ -238,7 +273,7 @@ ALTER TABLE `jenis`
 --
 ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`),
-  ADD KEY `Foreign Key` (`id_jenis`);
+  ADD KEY `id_jenis` (`id_jenis`);
 
 --
 -- Indexes for table `log`
@@ -252,8 +287,8 @@ ALTER TABLE `log`
 --
 ALTER TABLE `pengelolaan_sampah`
   ADD PRIMARY KEY (`id_pengelolaan_sampah`),
-  ADD KEY `id_sampah` (`id_sampah`),
-  ADD KEY `nik` (`nik`);
+  ADD KEY `nik` (`nik`),
+  ADD KEY `id_sampah` (`id_sampah`);
 
 --
 -- Indexes for table `pengguna`
@@ -266,9 +301,8 @@ ALTER TABLE `pengguna`
 --
 ALTER TABLE `sampah`
   ADD PRIMARY KEY (`id_sampah`),
-  ADD KEY `id_kategori` (`id_kategori`),
-  ADD KEY `Foreign Key` (`nik`),
-  ADD KEY `id_target` (`id_target`);
+  ADD KEY `nik` (`nik`),
+  ADD KEY `id_kategori` (`id_kategori`);
 
 --
 -- Indexes for table `target_sampah`
@@ -277,6 +311,13 @@ ALTER TABLE `target_sampah`
   ADD PRIMARY KEY (`id_target`),
   ADD KEY `nik` (`nik`),
   ADD KEY `id_kategori` (`id_kategori`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `nik` (`nik`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -298,7 +339,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pengelolaan_sampah`
@@ -310,13 +351,13 @@ ALTER TABLE `pengelolaan_sampah`
 -- AUTO_INCREMENT for table `sampah`
 --
 ALTER TABLE `sampah`
-  MODIFY `id_sampah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_sampah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `target_sampah`
 --
 ALTER TABLE `target_sampah`
-  MODIFY `id_target` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_target` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -338,15 +379,15 @@ ALTER TABLE `log`
 -- Constraints for table `pengelolaan_sampah`
 --
 ALTER TABLE `pengelolaan_sampah`
-  ADD CONSTRAINT `pengelolaan_sampah_ibfk_2` FOREIGN KEY (`id_sampah`) REFERENCES `sampah` (`id_sampah`),
-  ADD CONSTRAINT `pengelolaan_sampah_ibfk_3` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`);
+  ADD CONSTRAINT `pengelolaan_sampah_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`),
+  ADD CONSTRAINT `pengelolaan_sampah_ibfk_2` FOREIGN KEY (`id_sampah`) REFERENCES `sampah` (`id_sampah`);
 
 --
 -- Constraints for table `sampah`
 --
 ALTER TABLE `sampah`
-  ADD CONSTRAINT `sampah_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
-  ADD CONSTRAINT `sampah_ibfk_2` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`);
+  ADD CONSTRAINT `sampah_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`),
+  ADD CONSTRAINT `sampah_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
 
 --
 -- Constraints for table `target_sampah`
@@ -354,6 +395,12 @@ ALTER TABLE `sampah`
 ALTER TABLE `target_sampah`
   ADD CONSTRAINT `target_sampah_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`),
   ADD CONSTRAINT `target_sampah_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pengguna` (`nik`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

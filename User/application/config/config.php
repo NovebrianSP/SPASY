@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://localhost/spasy/user';
 $config['assets_url'] = 'http://localhost/spasy/Assets/';
+$config['midtrans_sdk_path'] = FCPATH . 'vendor/midtrans/midtrans-php/Midtrans.php';
 
 /*
 |--------------------------------------------------------------------------

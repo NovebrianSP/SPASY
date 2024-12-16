@@ -10,6 +10,7 @@ class Target_model extends CI_Model
         $this->db->from('target_sampah t');
         $this->db->join('kategori k', 'k.id_kategori = t.id_kategori');
         $this->db->join('sampah s', 't.id_kategori = s.id_kategori AND t.nik = s.nik AND t.id_target = s.id_target', 'left');
+        $this->db->where('t.nik', $this->session->userdata('id_pengguna'));
         $this->db->group_by('t.id_target, t.target_total, t.tanggal_target, k.nama_kategori'); // Menambahkan semua kolom yang ada di SELECT untuk GROUP BY
         return $this->db->get()->result();
     }

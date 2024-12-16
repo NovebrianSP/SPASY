@@ -3,23 +3,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Target extends CI_Controller
 {
-
   public function __construct()
   {
     parent::__construct();
     if (!$this->session->userdata('id_pengguna')) {
-      redirect('auth/login');
+      redirect('/', 'refresh');
     }
+
     $this->load->model('Target_model');
   }
 
   public function index()
   {
     $data['targets'] = $this->Target_model->get_targets();
-
-    $this->load->view('header');
-    $this->load->view('target', $data);
-    $this->load->view('footer');
+    
+      $this->load->view('addons/header');
+      $this->load->view('target/target', $data);
+      $this->load->view('addons/footer');
   }
 
   public function tambah()
@@ -38,9 +38,9 @@ class Target extends CI_Controller
       $this->Target_model->add_target($value);
       redirect('target');
     }
-    $this->load->view('header');
-    $this->load->view('target_add', $data);
-    $this->load->view('footer');
+    $this->load->view('addons/header');
+    $this->load->view('target/target_add', $data);
+    $this->load->view('addons/footer');
   }
 
   public function hapus($id)
@@ -58,8 +58,8 @@ class Target extends CI_Controller
     $data['total_terkumpul'] = $this->Target_model->get_total_terkumpul($nik, $id_target);
     $data['logs'] = $this->Target_model->get_logs($nik, $id_target);
 
-    $this->load->view('header');
-    $this->load->view('target_detail', $data);
-    $this->load->view('footer');
+    $this->load->view('addons/header');
+    $this->load->view('target/target_detail', $data);
+    $this->load->view('addons/footer');
   }
 }

@@ -56,7 +56,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav id="navBar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
 
       <!-- Toggle button for mobile -->

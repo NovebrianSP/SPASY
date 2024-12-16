@@ -3,6 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Garbage extends CI_Controller
 {
+  function __construct()
+  {
+    parent::__construct();
+
+    if (!$this->session->userdata('id_pengguna')) {
+      redirect('/', 'refresh');
+    }
+  }
+
   public function index($id_target = null)
   {
     $this->form_validation->set_rules('jenis_sampah', 'Jenis Sampah', 'required');
@@ -26,7 +35,7 @@ class Garbage extends CI_Controller
         'total' => $jumlah_berat,
         'id_target' => $this->input->post('id_target') ?? null
       ];
-      
+
       $kategori = $this->db->get_where('kategori', ['id_kategori' => $id_kategori])->row();
 
       $data_log = [
@@ -46,9 +55,9 @@ class Garbage extends CI_Controller
       }
     }
 
-    $this->load->view('header');
-    $this->load->view('garbage_view', $data);
-    $this->load->view('footer');
+    $this->load->view('addons/header');
+    $this->load->view('sampah/garbage_view', $data);
+    $this->load->view('addons/footer');
   }
 
   public function add_sampah_from_target($id_target)
@@ -67,9 +76,9 @@ class Garbage extends CI_Controller
 
     $data['id_target'] = $id_target;
 
-    $this->load->view('header');
-    $this->load->view('garbage_add', $data);
-    $this->load->view('footer');
+    $this->load->view('addons/header');
+    $this->load->view('sampah/garbage_add', $data);
+    $this->load->view('addons/footer');
   }
 
   public function store_sampah()

@@ -24,7 +24,7 @@ class Register extends CI_Controller
         'nama' => $this->input->post('nama'),
         'email' => $this->input->post('email'),
         'password' => $this->input->post('password'),
-        'status' => 'free user',
+        'status' => 'Inactive',
         'alamat' => 'empty',
         'no_telp' => 'empty',
       ];
@@ -36,7 +36,7 @@ class Register extends CI_Controller
     }
 
     $data['errors'] = validation_errors();
-    $this->load->view('register', $data);
-    $this->load->view('footer');
+    $this->load->view('auth/register', $data);
+    $this->load->view('addons/footer');
   }
 }

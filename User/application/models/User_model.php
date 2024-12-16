@@ -42,11 +42,16 @@ class User_model extends CI_Model
       'email' => $v['email'],
       'password' => $hashed_password,
       'nama' => $v['nama'],
-      'status' => $v['status'],
       'alamat' => $v['alamat'],
       'no_telp' => $v['no_telp']
     );
 
     return $this->db->insert('pengguna', $data);
+  }
+
+  public function update_subscription($nik, $data)
+  {
+    $this->db->where('nik', $nik);
+    return $this->db->update('pengguna', $data);
   }
 }
