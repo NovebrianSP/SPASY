@@ -84,6 +84,12 @@
             <a class="nav-link <?= (current_url() == site_url('Garbage')) ? 'active' : ''; ?>"
               href="<?= site_url('Garbage'); ?>">Sampah Saya</a>
           </li>
+
+        <!-- Menu History Log -->
+        <li class="nav-item">
+            <a class="nav-link <?= (current_url() == site_url('Log')) ? 'active' : ''; ?>"
+              href="<?= site_url('Log'); ?>">Log Catatan Saya</a>
+          </li>
         </ul>
 
         <!-- User Dropdown -->

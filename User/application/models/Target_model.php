@@ -18,11 +18,28 @@ class Target_model extends CI_Model
     public function add_target($data)
     {
         $this->db->insert('target_sampah', $data);
+
+        $data_log = array(
+            'nik' => $this->session->userdata('id_pengguna'),
+            'aktivitas' => "Pengguna atas nama " . $this->session->userdata('nama') . " menambahkan target sampah baru",
+            'timestamps' => date('Y-m-d H:i:s'),
+            'id_target' => $this->db->insert_id()
+        );
+
+        return $this->db->insert('log', $data_log);
     }
 
     public function delete_target($id)
     {
         $this->db->delete('target_sampah', array('id_target' => $id));
+
+        $data_log = array(
+            'nik' => $this->session->userdata('id_pengguna'),
+            'aktivitas' => "Pengguna atas nama " . $this->session->userdata('nama') . " menghapus target sampah dengan id target " . $id,
+            'timestamps' => date('Y-m-d H:i:s')
+        );
+
+        return $this->db->insert('log', $data_log);
     }
 
     public function get_target_total($nik)

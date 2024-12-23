@@ -37,16 +37,26 @@ class User_model extends CI_Model
   function register($v)
   {
     $hashed_password = $this->passwordhash->create_hash($v['password']);
+    $nik = $v['nik'];
+    $nama = $v['nama'];
+
     $data = array(
-      'nik' => $v['nik'],
+      'nik' => $nik,
       'email' => $v['email'],
       'password' => $hashed_password,
-      'nama' => $v['nama'],
+      'nama' => $nama,
       'alamat' => $v['alamat'],
       'no_telp' => $v['no_telp']
     );
 
-    return $this->db->insert('pengguna', $data);
+    $data_log = array(
+      'nik' => $nik,
+      'aktivitas' => "Pengguna atas nama ".$nama." melakukan registrasi sebagai pengguna baru",
+      'timestamps' => date('Y-m-d H:i:s')
+    );
+
+    $this->db->insert('pengguna', $data);
+    return $this->db->insert('log', $data_log);
   }
 
   public function update_subscription($nik, $data)
